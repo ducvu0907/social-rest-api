@@ -1,1 +1,1 @@
-# A thread-like social media application
+# A social media application
