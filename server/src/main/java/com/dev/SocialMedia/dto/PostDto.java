@@ -9,7 +9,7 @@ import java.util.List;
 public class PostDto {
     private Long id;
     private String content;
-    private UserDto author;
+    private UserDto user;
     private int likesCount;
     private int commentsCount;
     private List<CommentDto> comments;

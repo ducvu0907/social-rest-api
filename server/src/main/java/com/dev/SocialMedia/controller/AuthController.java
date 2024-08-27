@@ -3,7 +3,6 @@ package com.dev.SocialMedia.controller;
 import com.dev.SocialMedia.dto.UserDto;
 import com.dev.SocialMedia.dto.UserLoginDto;
 import com.dev.SocialMedia.dto.UserRegisterDto;
-import com.dev.SocialMedia.entity.User;
 import com.dev.SocialMedia.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +18,14 @@ public class AuthController {
     private IUserService userService;
 
     @PostMapping("/register")
-    private ResponseEntity<UserDto> register(@RequestBody UserRegisterDto dto) {
-        var response = userService.register(dto);
+    public ResponseEntity<UserDto> register(@RequestBody UserRegisterDto userRegisterDto) {
+        var response = userService.register(userRegisterDto);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    private ResponseEntity<UserDto> login(@RequestBody UserLoginDto dto) {
-        var response = userService.login(dto);
+    public ResponseEntity<UserDto> login(@RequestBody UserLoginDto userLoginDto) {
+        var response = userService.login(userLoginDto);
         return ResponseEntity.ok(response);
     }
 

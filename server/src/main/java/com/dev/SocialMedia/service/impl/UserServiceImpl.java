@@ -9,7 +9,7 @@ import com.dev.SocialMedia.service.IUserService;
 import com.dev.SocialMedia.utils.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,13 +19,7 @@ public class UserServiceImpl implements IUserService {
     private UserRepository repository;
 
     @Autowired
-    private BCryptPasswordEncoder bCrypt;
-
-
-    // hash password
-    private String hashPassword(String password) {
-        return bCrypt.encode(password);
-    }
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto register(UserRegisterDto dto) {
@@ -44,7 +38,7 @@ public class UserServiceImpl implements IUserService {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-        user.setPassword(hashPassword(dto.getPassword()));
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         User savedUser = repository.save(user);
         return Mapping.mapUserToUserDto(savedUser);
     }
@@ -57,14 +51,14 @@ public class UserServiceImpl implements IUserService {
             throw new UsernameNotFoundException("email does not exist");
         }
 
-        if (!bCrypt.matches(dto.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("password incorrect");
         }
 
         return Mapping.mapUserToUserDto(user);
     }
 
-    // might not need this
+    // TODO: might not need this
     @Override
     public void logout() {
 

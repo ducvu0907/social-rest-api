@@ -19,8 +19,8 @@ public class Post {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    private User author;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;

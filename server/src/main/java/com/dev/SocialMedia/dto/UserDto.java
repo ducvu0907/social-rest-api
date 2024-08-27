@@ -12,4 +12,5 @@ public class UserDto {
     private String bio;
     private int followingsCount;
     private int followersCount;
+    private List<PostDto> posts;
 }
