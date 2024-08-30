@@ -6,14 +6,13 @@ import com.dev.SocialMedia.entity.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO: might include other fields
-public class Mapping {
+public class Mapper {
 
     public static UserDto mapUserToUserDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
-        userDto.setProfilePicture(user.getProfilePicture());
+        userDto.setAvatarUrl(user.getAvatarUrl());
         userDto.setBio(user.getBio());
         userDto.setFollowersCount(user.getFollowers().size());
         userDto.setFollowingsCount(user.getFollowing().size());
@@ -55,18 +54,18 @@ public class Mapping {
     }
 
     public static List<UserDto> mapUserListToUserDtoList(List<User> users) {
-        return users.stream().map(Mapping::mapUserToUserDto).collect(Collectors.toList());
+        return users.stream().map(Mapper::mapUserToUserDto).collect(Collectors.toList());
     }
 
     public static List<PostDto> mapPostListToPostDtoList(List<Post> posts) {
-        return posts.stream().map(Mapping::mapPostToPostDto).collect(Collectors.toList());
+        return posts.stream().map(Mapper::mapPostToPostDto).collect(Collectors.toList());
     }
 
     public static List<CommentDto> mapCommentListToCommentDtoList(List<Comment> comments) {
-        return comments.stream().map(Mapping::mapCommentToCommentDto).collect(Collectors.toList());
+        return comments.stream().map(Mapper::mapCommentToCommentDto).collect(Collectors.toList());
     }
 
     public static List<LikeDto> mapLikeListToLikeDtoList(List<Like> likes) {
-        return likes.stream().map(Mapping::mapLikeToLikeDto).collect(Collectors.toList());
+        return likes.stream().map(Mapper::mapLikeToLikeDto).collect(Collectors.toList());
     }
 }

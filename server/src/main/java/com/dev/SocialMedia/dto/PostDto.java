@@ -12,6 +12,5 @@ public class PostDto {
     private UserDto user;
     private int likesCount;
     private int commentsCount;
-    private List<CommentDto> comments;
     private LocalDateTime createdAt;
 }

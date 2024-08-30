@@ -3,12 +3,14 @@ package com.dev.SocialMedia.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "follows")
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,6 @@ public class Follow {
     @JoinColumn(name = "followed_id", nullable = false)
     private User followed;
 
+    @CreatedDate
     private LocalDateTime createdAt;
 }

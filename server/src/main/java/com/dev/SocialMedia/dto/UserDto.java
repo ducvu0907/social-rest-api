@@ -2,15 +2,12 @@ package com.dev.SocialMedia.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class UserDto {
     private Long id;
     private String username;
-    private String profilePicture;
+    private String avatarUrl;
     private String bio;
     private int followingsCount;
     private int followersCount;
-    private List<PostDto> posts;
 }
