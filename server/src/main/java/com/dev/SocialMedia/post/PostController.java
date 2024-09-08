@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getPost(@PathVariable Long id) {
-        return ResponseEntity.ok(postService.getPost(id));
+    @GetMapping("/{postId}")
+    public ResponseEntity<ApiResponse> getPost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.getPost(postId));
     }
 
     @PostMapping("/")
@@ -21,13 +21,24 @@ public class PostController {
         return ResponseEntity.ok(postService.createPost(request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deletePost(@PathVariable Long id) {
-        return ResponseEntity.ok(postService.deletePost(id));
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<ApiResponse> deletePost(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.deletePost(postId));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> updatePost(@PathVariable Long id, @RequestBody UpdatePostRequest request) {
-        return ResponseEntity.ok(postService.updatePost(id, request));
+    @PutMapping("/{postId}")
+    public ResponseEntity<ApiResponse> updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest request) {
+        return ResponseEntity.ok(postService.updatePost(postId, request));
     }
+
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity<ApiResponse> getPostComments(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.getPostComments(postId));
+    }
+
+    @GetMapping("/{postId}/likes")
+    public ResponseEntity<ApiResponse> getPostLikes(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.getPostLikes(postId));
+    }
+
 }

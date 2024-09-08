@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class PostContentDto {
+public class PostDetailsDto {
     private String content;
     private String username;
     private String avatarUrl;

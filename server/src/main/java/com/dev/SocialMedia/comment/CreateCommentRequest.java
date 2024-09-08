@@ -1,9 +1,9 @@
-package com.dev.SocialMedia.post;
+package com.dev.SocialMedia.comment;
 
 import lombok.Data;
 
 @Data
-public class CreatePostRequest {
+public class CreateCommentRequest {
     private Long userId;
     private String content;
 }

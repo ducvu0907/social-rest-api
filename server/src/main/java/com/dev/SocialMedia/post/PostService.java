@@ -18,37 +18,50 @@ public class PostService {
     private final UserRepository userRepository;
     private final Mapping mapping;
 
-    public ApiResponse getPost(Long id) {
-        Post post = postRepository.findById(id)
+    public ApiResponse getPost(Long postId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
-        return new ApiResponse("success", "post retrieved successfully", mapping.mapPostToPostContentDto(post));
+        return new ApiResponse("success", "post retrieved successfully", mapping.mapPostToPostDetailsDto(post));
     }
 
     public ApiResponse createPost(CreatePostRequest request) {
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new CustomException("username not found"));
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new CustomException("user id not found"));
         Post post = new Post();
         post.setUser(user);
         post.setContent(request.getContent());
         post.setComments(new ArrayList<>());
         post.setLikes(new ArrayList<>());
-        return new ApiResponse("success", "post created successfully", mapping.mapPostToPostContentDto(post));
+        postRepository.save(post);
+        return new ApiResponse("success", "post created successfully", mapping.mapPostToPostDetailsDto(post));
     }
 
-    public ApiResponse deletePost(Long id) {
-        Post post = postRepository.findById(id)
+    public ApiResponse deletePost(Long postId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
         postRepository.delete(post);
         return new ApiResponse("success", "post deleted successfully", null);
     }
 
-    public ApiResponse updatePost(Long id, UpdatePostRequest request) {
-        Post post = postRepository.findById(id)
+    public ApiResponse updatePost(Long postId, UpdatePostRequest request) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
         if (request.getContent() != null) {
             post.setContent(request.getContent());
         }
         postRepository.save(post);
-        return new ApiResponse("success", "post updated successfully", mapping.mapPostToPostContentDto(post));
+        return new ApiResponse("success", "post updated successfully", mapping.mapPostToPostDetailsDto(post));
+    }
+
+    public ApiResponse getPostComments(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException("post id not found"));
+        return new ApiResponse("success", "get post comments successfully", mapping.mapListCommentToListCommentDetailsDto(post.getComments()));
+    }
+
+    public ApiResponse getPostLikes(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException("post id not found"));
+        return new ApiResponse("success", "get post likes successfully", mapping.mapListLikeToListLikeDto(post.getLikes()));
     }
 }

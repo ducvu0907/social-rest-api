@@ -5,7 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3fa8bca-df39-4cab-bd3b-ded62764448e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/auth/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/auth/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/auth/DemoResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/auth/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/config/ApplicationConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/config/JwtAuthFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/config/JwtService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/user/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/controller/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/controller/PostController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/dto/LoginResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/dto/LoginUserDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/dto/RegisterUserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/auth/RegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Follow.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Follow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Like.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Like.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/security/CorsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/security/JwtAuthFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/service/AuthService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/service/CustomUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/service/IUserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/service/impl/UserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/utils/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/dev/SocialMedia/utils/Mapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,22 +45,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2l6k6zF1HfdxNLwQKiM988FTkQd" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/zxd/workspace/projects/social-media-app"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/zxd/workspace/projects/social-media-app&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

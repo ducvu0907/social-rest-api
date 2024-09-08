@@ -13,15 +13,22 @@ public class UserService {
     private final UserRepository userRepository;
     private final Mapping mapping;
 
-    public ApiResponse getUserProfile(String username) {
+    public ApiResponse getUserDetailsByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException("user id not found"));
+
+        return new ApiResponse("success", "get user details successfully", mapping.mapUserToUserDetailsDto(user));
+    }
+
+    public ApiResponse getUserDetailsByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new CustomException("username not found"));
 
-        return new ApiResponse("success", "user profile retrieved successfully", mapping.mapUserToUserProfileDto(user));
+        return new ApiResponse("success", "get user details successfully", mapping.mapUserToUserDetailsDto(user));
     }
 
-    public ApiResponse updateUserProfile(Long id, UpdateProfileRequest request) {
-        User user = userRepository.findById(id)
+    public ApiResponse updateUser(Long userId, UpdateUserRequest request) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
         if (request.getBio() != null) {
             user.setBio(request.getBio());
@@ -34,6 +41,37 @@ public class UserService {
         }
         // TODO: update user avatar
         userRepository.save(user);
-        return new ApiResponse("success", "user profile update successfully", mapping.mapUserToUserProfileDto(user));
+        return new ApiResponse("success", "update user successfully", mapping.mapUserToUserDetailsDto(user));
+    }
+
+    public ApiResponse getUserFollowers(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException("user id not found"));
+
+        return new ApiResponse("success", "get user followers successfully", mapping.mapListFollowToListFollowDto(user.getFollowers()));
+    }
+
+    public ApiResponse getUserFollowings(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException("user id not found"));
+        return new ApiResponse("success", "get user followings successfully", mapping.mapListFollowToListFollowDto(user.getFollowing()));
+    }
+
+    public ApiResponse getUserPosts(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException("user id not found"));
+        return new ApiResponse("success", "get user posts successfully", mapping.mapListPostToListPostDetailsDto(user.getPosts()));
+    }
+
+    public ApiResponse getUserComments(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException("user id not found"));
+        return new ApiResponse("success", "get user comments successfully", mapping.mapListCommentToListCommentDetailsDto(user.getComments()));
+    }
+
+    public ApiResponse getUserLikes(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException("user id not found"));
+        return new ApiResponse("success", "get user comments successfully", mapping.mapListLikeToListLikeDto(user.getLikes()));
     }
 }
