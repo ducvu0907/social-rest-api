@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class CommentDetailsDto {
+    private Long id;
     private String username;
     private String userAvatarUrl;
     private Long postId;

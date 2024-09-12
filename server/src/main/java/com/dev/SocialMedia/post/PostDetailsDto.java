@@ -8,7 +8,10 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class PostDetailsDto {
+    private Long id;
     private String content;
     private String username;
-    private String avatarUrl;
+    private String userAvatarUrl;
+    private int commentsCount;
+    private int likesCount;
 }

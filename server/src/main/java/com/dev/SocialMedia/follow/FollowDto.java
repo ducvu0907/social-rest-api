@@ -9,5 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class FollowDto {
     private String followerName;
+    private String followerAvatarUrl;
     private String followedName;
+    private String followedAvatarUrl;
 }

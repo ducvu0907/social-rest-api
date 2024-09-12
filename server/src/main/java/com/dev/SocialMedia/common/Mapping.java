@@ -26,7 +26,9 @@ public class Mapping {
         return PostDetailsDto.builder()
                 .content(post.getContent())
                 .username(post.getUser().getUsername())
-                .avatarUrl(post.getUser().getAvatarUrl())
+                .userAvatarUrl(post.getUser().getAvatarUrl())
+                .commentsCount(post.getComments().size())
+                .likesCount(post.getLikes().size())
                 .build();
     }
 
@@ -50,7 +52,9 @@ public class Mapping {
     public FollowDto mapFollowToFollowDto(Follow follow) {
         return FollowDto.builder()
                 .followerName(follow.getFollower().getUsername())
+                .followerAvatarUrl(follow.getFollower().getAvatarUrl())
                 .followedName(follow.getFollowed().getUsername())
+                .followedAvatarUrl(follow.getFollowed().getAvatarUrl())
                 .build();
     }
 
