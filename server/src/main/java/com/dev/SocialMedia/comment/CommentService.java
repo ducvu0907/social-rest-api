@@ -2,15 +2,15 @@ package com.dev.SocialMedia.comment;
 
 import com.dev.SocialMedia.common.ApiResponse;
 import com.dev.SocialMedia.common.Mapping;
-import com.dev.SocialMedia.entity.Comment;
-import com.dev.SocialMedia.entity.Post;
-import com.dev.SocialMedia.entity.User;
+import com.dev.SocialMedia.post.Post;
+import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.post.PostRepository;
 import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -21,17 +21,20 @@ public class CommentService {
     private final PostRepository postRepository;
     private final Mapping mapping;
 
-    public ApiResponse createCommentOnPost(Long postId, CreateCommentRequest request) {
+    public ApiResponse commentOnPost(Long postId, CreateCommentRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException("user id not found"));
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
-        Comment comment = new Comment();
-        comment.setContent(request.getContent());
-        comment.setPost(post);
-        comment.setUser(user);
-        comment.setParent(null);
-        comment.setChildren(new ArrayList<>());
+        Comment comment = Comment.builder()
+                .content(request.getContent())
+                .post(post)
+                .user(user)
+                .parent(null)
+                .children(new ArrayList<>())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
         commentRepository.save(comment);
         return new ApiResponse("success", "comment on post successfully", mapping.mapCommentToCommentDetailsDto(comment));
     }
@@ -46,6 +49,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException("comment id not found"));
         comment.setContent(request.getContent());
+        comment.setUpdatedAt(LocalDateTime.now());
         commentRepository.save(comment);
         return new ApiResponse("success", "update comment successfully", mapping.mapCommentToCommentDetailsDto(comment));
     }
@@ -64,12 +68,16 @@ public class CommentService {
                 .orElseThrow(() -> new CustomException("user id not found"));
         Comment parentComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException("comment id not found"));
-        Comment comment = new Comment();
-        comment.setContent(request.getContent());
-        comment.setPost(post);
-        comment.setUser(user);
-        comment.setParent(parentComment);
-        comment.setChildren(new ArrayList<>());
+        Comment comment = Comment.builder()
+                .content(request.getContent())
+                .post(post)
+                .user(user)
+                .parent(parentComment)
+                .children(new ArrayList<>())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        commentRepository.save(comment);
         return new ApiResponse("success", "reply to comment successfully", mapping.mapCommentToCommentDetailsDto(comment));
     }
 }

@@ -2,9 +2,8 @@ package com.dev.SocialMedia.like;
 
 import com.dev.SocialMedia.common.ApiResponse;
 import com.dev.SocialMedia.common.Mapping;
-import com.dev.SocialMedia.entity.Like;
-import com.dev.SocialMedia.entity.Post;
-import com.dev.SocialMedia.entity.User;
+import com.dev.SocialMedia.post.Post;
+import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.post.PostRepository;
 import com.dev.SocialMedia.user.UserRepository;
@@ -24,22 +23,18 @@ public class LikeService {
                 .orElseThrow(() -> new CustomException("user id not found"));
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
-        Like like = new Like();
-        like.setUser(user);
-        like.setPost(post);
+        Like like = Like.builder()
+                .user(user)
+                .post(post)
+                .build();
         likeRepository.save(like);
         return new ApiResponse("success", "like post successfully", mapping.mapLikeToLikeDto(like));
     }
 
     public ApiResponse unlikePost(Long postId, LikeRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new CustomException("user id not found"));
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException("post id not found"));
-        Like like = new Like();
-        like.setUser(user);
-        like.setPost(post);
-        likeRepository.save(like);
+        Like like = likeRepository.findLikeByUserIdAndPostId(request.getUserId(), postId)
+                .orElseThrow(() -> new CustomException("like not found"));
+        likeRepository.delete(like);
         return new ApiResponse("success", "unlike post successfully", mapping.mapLikeToLikeDto(like));
     }
 }

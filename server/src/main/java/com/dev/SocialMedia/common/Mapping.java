@@ -1,10 +1,16 @@
 package com.dev.SocialMedia.common;
 
+import com.dev.SocialMedia.comment.Comment;
 import com.dev.SocialMedia.comment.CommentDetailsDto;
-import com.dev.SocialMedia.entity.*;
+import com.dev.SocialMedia.follow.Follow;
 import com.dev.SocialMedia.follow.FollowDto;
+import com.dev.SocialMedia.like.Like;
 import com.dev.SocialMedia.like.LikeDto;
+import com.dev.SocialMedia.notification.Notification;
+import com.dev.SocialMedia.notification.NotificationDto;
+import com.dev.SocialMedia.post.Post;
 import com.dev.SocialMedia.post.PostDetailsDto;
+import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.user.UserDetailsDto;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +64,15 @@ public class Mapping {
                 .build();
     }
 
+    public NotificationDto mapNotificationToNotificationDto(Notification notification) {
+        return NotificationDto.builder()
+                .type(notification.getType())
+                .message(notification.getMessage())
+                .contentId(notification.getContentId())
+                .timestamp(notification.getTimestamp())
+                .build();
+    }
+
     public List<PostDetailsDto> mapListPostToListPostDetailsDto(List<Post> posts) {
         return posts.stream().map(this::mapPostToPostDetailsDto).toList();
     }
@@ -72,5 +87,9 @@ public class Mapping {
 
     public List<LikeDto> mapListLikeToListLikeDto(List<Like> likes) {
         return likes.stream().map(this::mapLikeToLikeDto).toList();
+    }
+
+    public List<NotificationDto> mapListNotificationToListNotificationDto(List<Notification> notifications) {
+        return notifications.stream().map(this::mapNotificationToNotificationDto).toList();
     }
 }

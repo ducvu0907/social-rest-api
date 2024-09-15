@@ -1,5 +1,6 @@
-package com.dev.SocialMedia.entity;
+package com.dev.SocialMedia.follow;
 
+import com.dev.SocialMedia.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,19 +15,19 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "likes")
-public class Like {
+@Table(name = "follows")
+public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "follower_id", nullable = false)
+    private User follower;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    @JoinColumn(name = "followed_id", nullable = false)
+    private User followed;
 
     @CreatedDate
     private LocalDateTime createdAt;

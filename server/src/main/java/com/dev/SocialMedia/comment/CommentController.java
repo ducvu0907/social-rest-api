@@ -12,8 +12,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/{postId}")
-    public ResponseEntity<ApiResponse> createCommentOnPost(@PathVariable Long postId, @RequestBody CreateCommentRequest request) {
-        return ResponseEntity.ok(commentService.createCommentOnPost(postId, request));
+    public ResponseEntity<ApiResponse> commentOnPost(@PathVariable Long postId, @RequestBody CreateCommentRequest request) {
+        return ResponseEntity.ok(commentService.commentOnPost(postId, request));
     }
 
     @GetMapping("/{commentId}")

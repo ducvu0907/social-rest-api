@@ -1,5 +1,10 @@
-package com.dev.SocialMedia.entity;
+package com.dev.SocialMedia.user;
 
+import com.dev.SocialMedia.comment.Comment;
+import com.dev.SocialMedia.follow.Follow;
+import com.dev.SocialMedia.like.Like;
+import com.dev.SocialMedia.notification.Notification;
+import com.dev.SocialMedia.post.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +56,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "followed")
     private List<Follow> followers;
+
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications;
 
     @CreatedDate
     private LocalDateTime createdAt;

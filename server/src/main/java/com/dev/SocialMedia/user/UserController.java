@@ -53,4 +53,5 @@ public class UserController {
     public ResponseEntity<ApiResponse> getUserLikes(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUserLikes(userId));
     }
+
 }

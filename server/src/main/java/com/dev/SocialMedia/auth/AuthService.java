@@ -2,7 +2,7 @@ package com.dev.SocialMedia.auth;
 
 import com.dev.SocialMedia.common.ApiResponse;
 import com.dev.SocialMedia.config.JwtService;
-import com.dev.SocialMedia.entity.User;
+import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -29,16 +30,20 @@ public class AuthService {
             throw new CustomException("email already exists");
         }
 
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword())); // hash password
-        user.setAvatarUrl("https://ui-avatars.com/api/?name=" + user.getUsername());
-        user.setBio("");
-        user.setPosts(new ArrayList<>());
-        user.setComments(new ArrayList<>());
-        user.setFollowing(new ArrayList<>());
-        user.setFollowers(new ArrayList<>());
+        User user = User.builder()
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .avatarUrl("https://ui-avatars.com/api/?name=" + request.getUsername()) // tempo avatar api
+                .bio("")
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .following(new ArrayList<>())
+                .followers(new ArrayList<>())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
         userRepository.save(user);
 
         return new ApiResponse("success", "register successfully", null);

@@ -2,7 +2,6 @@ package com.dev.SocialMedia.user;
 
 import com.dev.SocialMedia.common.ApiResponse;
 import com.dev.SocialMedia.common.Mapping;
-import com.dev.SocialMedia.entity.User;
 import com.dev.SocialMedia.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,4 +73,5 @@ public class UserService {
                 .orElseThrow(() -> new CustomException("user id not found"));
         return new ApiResponse("success", "get user comments successfully", mapping.mapListLikeToListLikeDto(user.getLikes()));
     }
+
 }

@@ -2,8 +2,7 @@ package com.dev.SocialMedia.post;
 
 import com.dev.SocialMedia.common.ApiResponse;
 import com.dev.SocialMedia.common.Mapping;
-import com.dev.SocialMedia.entity.Post;
-import com.dev.SocialMedia.entity.User;
+import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +26,14 @@ public class PostService {
     public ApiResponse createPost(CreatePostRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException("user id not found"));
-        Post post = new Post();
-        post.setUser(user);
-        post.setContent(request.getContent());
-        post.setComments(new ArrayList<>());
-        post.setLikes(new ArrayList<>());
+
+        Post post = Post.builder()
+                .user(user)
+                .content(request.getContent())
+                .comments(new ArrayList<>())
+                .likes(new ArrayList<>())
+                .build();
+
         postRepository.save(post);
         return new ApiResponse("success", "post created successfully", mapping.mapPostToPostDetailsDto(post));
     }

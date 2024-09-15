@@ -1,10 +1,14 @@
-package com.dev.SocialMedia.entity;
+package com.dev.SocialMedia.post;
 
+import com.dev.SocialMedia.comment.Comment;
+import com.dev.SocialMedia.like.Like;
+import com.dev.SocialMedia.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
@@ -15,8 +19,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comments")
-public class Comment {
+@Table(name = "posts")
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,17 +32,15 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Comment parent;
+    @OneToMany(mappedBy = "post")
+    private List<Like> likes;
 
-    @OneToMany(mappedBy = "parent")
-    private List<Comment> children;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

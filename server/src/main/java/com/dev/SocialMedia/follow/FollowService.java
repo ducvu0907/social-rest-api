@@ -2,12 +2,10 @@ package com.dev.SocialMedia.follow;
 
 import com.dev.SocialMedia.common.ApiResponse;
 import com.dev.SocialMedia.common.Mapping;
-import com.dev.SocialMedia.entity.Follow;
-import com.dev.SocialMedia.entity.User;
+import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.util.CustomObjectInputStream;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,9 +20,10 @@ public class FollowService {
                 .orElseThrow(() -> new CustomException("follower id not found "));
         User followed = userRepository.findById(request.getFollowedUserId())
                 .orElseThrow(() -> new CustomException("followed id not found"));
-        Follow follow = new Follow();
-        follow.setFollower(follower);
-        follow.setFollowed(followed);
+        Follow follow = Follow.builder()
+                .follower(follower)
+                .followed(followed)
+                .build();
         followRepository.save(follow);
         return new ApiResponse("success", "follow user successfully", mapping.mapFollowToFollowDto(follow));
     }

@@ -1,6 +1,5 @@
 package com.dev.SocialMedia.user;
 
-import com.dev.SocialMedia.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

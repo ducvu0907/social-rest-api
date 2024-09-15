@@ -1,11 +1,14 @@
-package com.dev.SocialMedia.entity;
+package com.dev.SocialMedia.like;
 
+import com.dev.SocialMedia.post.Post;
+import com.dev.SocialMedia.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -14,20 +17,21 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "follows")
-public class Follow {
+@Table(name = "likes")
+public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "follower_id", nullable = false)
-    private User follower;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "followed_id", nullable = false)
-    private User followed;
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
     @CreatedDate
     private LocalDateTime createdAt;
+
 }
