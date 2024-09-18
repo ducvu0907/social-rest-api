@@ -16,7 +16,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserDetailsByUserId(userId));
     }
 
-    // TODO: might change to this instead of user id
     // @GetMapping("/{username}")
     // public ResponseEntity<ApiResponse> getUserProfileByUsername(@PathVariable String username) {
     //     return ResponseEntity.ok(userService.getUserDetailsByUsername(username));

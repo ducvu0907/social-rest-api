@@ -21,6 +21,7 @@ public class CommentService {
     private final PostRepository postRepository;
     private final Mapping mapping;
 
+    // TODO: create new notification and trigger websocket event
     public ApiResponse commentOnPost(Long postId, CreateCommentRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException("user id not found"));
@@ -54,6 +55,7 @@ public class CommentService {
         return new ApiResponse("success", "update comment successfully", mapping.mapCommentToCommentDetailsDto(comment));
     }
 
+    // TODO: delete the corresponding notification object in the db
     public ApiResponse deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException("comment id not found"));
@@ -61,6 +63,7 @@ public class CommentService {
         return new ApiResponse("success", "delete comment successfully", null);
     }
 
+    // TODO: create new notification and trigger websocket event
     public ApiResponse replyToComment(Long postId, Long commentId, CreateCommentRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));

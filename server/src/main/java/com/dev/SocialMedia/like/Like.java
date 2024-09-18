@@ -1,5 +1,6 @@
 package com.dev.SocialMedia.like;
 
+import com.dev.SocialMedia.comment.Comment;
 import com.dev.SocialMedia.post.Post;
 import com.dev.SocialMedia.user.User;
 import jakarta.persistence.*;
@@ -23,13 +24,19 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String type; // (comment, post)
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id")
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
     @CreatedDate
     private LocalDateTime createdAt;

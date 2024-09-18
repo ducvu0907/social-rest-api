@@ -10,5 +10,6 @@ import lombok.Data;
 public class LikeDto {
     private String username;
     private String userAvatarUrl;
-    private Long postId;
+    private String type;
+    private Long contentId;
 }

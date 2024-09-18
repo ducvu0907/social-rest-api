@@ -58,7 +58,7 @@ public class User implements UserDetails {
     private List<Follow> followers;
 
     @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+    private List<Notification> notifications; // might not need this ?
 
     @CreatedDate
     private LocalDateTime createdAt;

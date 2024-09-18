@@ -8,6 +8,7 @@ import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,16 +51,17 @@ public class AuthService {
     }
 
     public ApiResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
+        // System.out.println(authentication.getPrincipal());
 
-        var user = userRepository.findByUsername(request.getUsername())
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
 
         return new ApiResponse("success", "login successfully", jwtToken);
     }

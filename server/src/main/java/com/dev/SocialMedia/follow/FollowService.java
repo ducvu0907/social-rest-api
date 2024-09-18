@@ -15,6 +15,7 @@ public class FollowService {
     private final UserRepository userRepository;
     private final Mapping mapping;
 
+    // TODO: create new notification and trigger websocket event
     public ApiResponse followUser(Long followerId, FollowUserRequest request) {
         User follower = userRepository.findById(followerId)
                 .orElseThrow(() -> new CustomException("follower id not found "));
@@ -28,6 +29,7 @@ public class FollowService {
         return new ApiResponse("success", "follow user successfully", mapping.mapFollowToFollowDto(follow));
     }
 
+    // TODO: delete the corresponding notification object in the db
     public ApiResponse unfollowUser(Long followerId, FollowUserRequest request) {
         Follow follow = followRepository.findByFollowerIdAndFollowedId(followerId, request.getFollowedUserId())
                 .orElseThrow(() -> new CustomException("follow not found"));

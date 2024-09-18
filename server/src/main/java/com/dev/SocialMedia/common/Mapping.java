@@ -40,7 +40,8 @@ public class Mapping {
 
     public LikeDto mapLikeToLikeDto(Like like) {
         return LikeDto.builder()
-                .postId(like.getPost().getId())
+                .type(like.getType())
+                .contentId(like.getType().equals("comment") ? like.getComment().getId() : like.getPost().getId())
                 .username(like.getUser().getUsername())
                 .userAvatarUrl(like.getUser().getAvatarUrl())
                 .build();
