@@ -1,15 +1,18 @@
 package com.dev.SocialMedia.user;
 
 import com.dev.SocialMedia.common.ApiResponse;
+import com.dev.SocialMedia.common.FileStorageService;
 import com.dev.SocialMedia.common.Mapping;
 import com.dev.SocialMedia.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final FileStorageService fileStorageService;
     private final Mapping mapping;
 
     public ApiResponse getUserDetailsByUserId(Long userId) {
@@ -26,7 +29,7 @@ public class UserService {
         return new ApiResponse("success", "get user details successfully", mapping.mapUserToUserDetailsDto(user));
     }
 
-    public ApiResponse updateUser(Long userId, UpdateUserRequest request) {
+    public ApiResponse updateUser(Long userId, MultipartFile avatarFile, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
         if (request.getBio() != null) {
@@ -38,7 +41,17 @@ public class UserService {
             }
             user.setUsername(request.getUsername());
         }
-        // TODO: update user avatar
+
+        if (avatarFile != null) {
+            try {
+                fileStorageService.init();
+                fileStorageService.store(avatarFile);
+                user.setAvatarUrl("api/files/" + avatarFile.getOriginalFilename());
+            } catch (Exception e) {
+                throw new CustomException("failed to handle uploaded file");
+            }
+        }
+
         userRepository.save(user);
         return new ApiResponse("success", "update user successfully", mapping.mapUserToUserDetailsDto(user));
     }

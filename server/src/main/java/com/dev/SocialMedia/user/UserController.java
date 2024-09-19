@@ -4,6 +4,7 @@ import com.dev.SocialMedia.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,10 +23,9 @@ public class UserController {
     // }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse> updateUserProfile(@PathVariable Long userId, @RequestBody UpdateUserRequest request) {
-        return ResponseEntity.ok(userService.updateUser(userId, request));
+    public ResponseEntity<ApiResponse> updateUserProfile(@PathVariable Long userId, @RequestParam("file") MultipartFile avatarFile, @RequestBody UpdateUserRequest request) {
+        return ResponseEntity.ok(userService.updateUser(userId, avatarFile, request));
     }
-
 
     @GetMapping("/{userId}/followers")
     public ResponseEntity<ApiResponse> getUserFollowers(@PathVariable Long userId) {
