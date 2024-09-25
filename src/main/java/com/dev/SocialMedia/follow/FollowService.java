@@ -1,7 +1,7 @@
 package com.dev.SocialMedia.follow;
 
 import com.dev.SocialMedia.common.ApiResponse;
-import com.dev.SocialMedia.common.Mapping;
+import com.dev.SocialMedia.common.Mapper;
 import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
@@ -13,9 +13,8 @@ import org.springframework.stereotype.Service;
 public class FollowService {
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
-    private final Mapping mapping;
+    private final Mapper mapper;
 
-    // TODO: create new notification and trigger websocket event
     public ApiResponse followUser(Long followerId, FollowUserRequest request) {
         User follower = userRepository.findById(followerId)
                 .orElseThrow(() -> new CustomException("follower id not found "));
@@ -26,7 +25,7 @@ public class FollowService {
                 .followed(followed)
                 .build();
         followRepository.save(follow);
-        return new ApiResponse("success", "follow user successfully", mapping.mapFollowToFollowDto(follow));
+        return new ApiResponse("success", "follow user successfully", mapper.mapFollowToFollowDto(follow));
     }
 
     // TODO: delete the corresponding notification object in the db
@@ -34,7 +33,7 @@ public class FollowService {
         Follow follow = followRepository.findByFollowerIdAndFollowedId(followerId, request.getFollowedUserId())
                 .orElseThrow(() -> new CustomException("follow not found"));
         followRepository.delete(follow);
-        return new ApiResponse("success", "unfollow user successfully", mapping.mapFollowToFollowDto(follow));
+        return new ApiResponse("success", "unfollow user successfully", mapper.mapFollowToFollowDto(follow));
     }
 
 }

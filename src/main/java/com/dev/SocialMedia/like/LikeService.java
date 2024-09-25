@@ -3,7 +3,7 @@ package com.dev.SocialMedia.like;
 import com.dev.SocialMedia.comment.Comment;
 import com.dev.SocialMedia.comment.CommentRepository;
 import com.dev.SocialMedia.common.ApiResponse;
-import com.dev.SocialMedia.common.Mapping;
+import com.dev.SocialMedia.common.Mapper;
 import com.dev.SocialMedia.notification.NotificationRepository;
 import com.dev.SocialMedia.post.Post;
 import com.dev.SocialMedia.user.User;
@@ -21,9 +21,8 @@ public class LikeService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final NotificationRepository notificationRepository;
-    private final Mapping mapping;
+    private final Mapper mapper;
 
-    // TODO: like post creates new notification for the author and triggers a websocket event
     public ApiResponse likePost(Long postId, LikeRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException("user id not found"));
@@ -35,7 +34,7 @@ public class LikeService {
                 .post(post)
                 .build();
         likeRepository.save(like);
-        return new ApiResponse("success", "like post successfully", mapping.mapLikeToLikeDto(like));
+        return new ApiResponse("success", "like post successfully", mapper.mapLikeToLikeDto(like));
     }
 
     // TODO: unlike post deletes notification in the db
@@ -46,7 +45,6 @@ public class LikeService {
         return new ApiResponse("success", "unlike post successfully", null);
     }
 
-    // TODO: like comment creates new notification for the author and triggers a websocket event
     public ApiResponse likeComment(Long commentId, LikeRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException("user id not found"));
@@ -58,7 +56,7 @@ public class LikeService {
                 .comment(comment)
                 .build();
         likeRepository.save(like);
-        return new ApiResponse("success", "like comment successfully", mapping.mapLikeToLikeDto(like));
+        return new ApiResponse("success", "like comment successfully", mapper.mapLikeToLikeDto(like));
     }
 
     // TODO: unlike post deletes notification in the db

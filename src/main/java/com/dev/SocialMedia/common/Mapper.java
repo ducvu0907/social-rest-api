@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class Mapping {
+public class Mapper {
     public UserDetailsDto mapUserToUserDetailsDto(User user) {
         return UserDetailsDto.builder()
                 .username(user.getUsername())
@@ -30,6 +30,7 @@ public class Mapping {
 
     public PostDetailsDto mapPostToPostDetailsDto(Post post) {
         return PostDetailsDto.builder()
+                .id(post.getId())
                 .content(post.getContent())
                 .username(post.getUser().getUsername())
                 .userAvatarUrl(post.getUser().getAvatarUrl())
@@ -49,6 +50,7 @@ public class Mapping {
 
     public CommentDetailsDto mapCommentToCommentDetailsDto(Comment comment) {
         return CommentDetailsDto.builder()
+                .id(comment.getId())
                 .username(comment.getUser().getUsername())
                 .userAvatarUrl(comment.getUser().getAvatarUrl())
                 .postId(comment.getPost().getId())

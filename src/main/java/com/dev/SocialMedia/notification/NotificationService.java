@@ -1,7 +1,7 @@
 package com.dev.SocialMedia.notification;
 
 import com.dev.SocialMedia.common.ApiResponse;
-import com.dev.SocialMedia.common.Mapping;
+import com.dev.SocialMedia.common.Mapper;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.user.UserRepository;
@@ -16,7 +16,7 @@ import java.util.List;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
-    private final Mapping mapping;
+    private final Mapper mapper;
 
     // i think it makes more sense to use this in other service handlers instead of as a stand-alone api
     public ApiResponse createNotification(Long userId, CreateNotificationRequest request) {
@@ -30,14 +30,14 @@ public class NotificationService {
                 .timestamp(LocalDateTime.now())
                 .build();
         notificationRepository.save(notification);
-        return new ApiResponse("success", "create notifications successfully", mapping.mapNotificationToNotificationDto(notification));
+        return new ApiResponse("success", "create notifications successfully", mapper.mapNotificationToNotificationDto(notification));
     }
 
     public ApiResponse getUserNotifications(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
-        List<Notification> notifications = notificationRepository.findNotificationsByUserId(userId)
+        List<Notification> notifications = notificationRepository.findByUserId(userId)
                 .orElseThrow(() -> new CustomException("notifications not found"));
-        return new ApiResponse("success", "get notifications successfully", mapping.mapListNotificationToListNotificationDto(notifications));
+        return new ApiResponse("success", "get notifications successfully", mapper.mapListNotificationToListNotificationDto(notifications));
     }
 }

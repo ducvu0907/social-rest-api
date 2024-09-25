@@ -1,7 +1,7 @@
 package com.dev.SocialMedia.comment;
 
 import com.dev.SocialMedia.common.ApiResponse;
-import com.dev.SocialMedia.common.Mapping;
+import com.dev.SocialMedia.common.Mapper;
 import com.dev.SocialMedia.post.Post;
 import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
@@ -19,9 +19,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
-    private final Mapping mapping;
+    private final Mapper mapper;
 
-    // TODO: create new notification and trigger websocket event
     public ApiResponse commentOnPost(Long postId, CreateCommentRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException("user id not found"));
@@ -37,13 +36,13 @@ public class CommentService {
                 .updatedAt(LocalDateTime.now())
                 .build();
         commentRepository.save(comment);
-        return new ApiResponse("success", "comment on post successfully", mapping.mapCommentToCommentDetailsDto(comment));
+        return new ApiResponse("success", "comment on post successfully", mapper.mapCommentToCommentDetailsDto(comment));
     }
 
     public ApiResponse getComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException("comment id not found"));
-        return new ApiResponse("success", "get comment successfully", mapping.mapCommentToCommentDetailsDto(comment));
+        return new ApiResponse("success", "get comment successfully", mapper.mapCommentToCommentDetailsDto(comment));
     }
 
     public ApiResponse updateComment(Long commentId, UpdateCommentRequest request) {
@@ -52,7 +51,7 @@ public class CommentService {
         comment.setContent(request.getContent());
         comment.setUpdatedAt(LocalDateTime.now());
         commentRepository.save(comment);
-        return new ApiResponse("success", "update comment successfully", mapping.mapCommentToCommentDetailsDto(comment));
+        return new ApiResponse("success", "update comment successfully", mapper.mapCommentToCommentDetailsDto(comment));
     }
 
     // TODO: delete the corresponding notification object in the db
@@ -63,7 +62,6 @@ public class CommentService {
         return new ApiResponse("success", "delete comment successfully", null);
     }
 
-    // TODO: create new notification and trigger websocket event
     public ApiResponse replyToComment(Long postId, Long commentId, CreateCommentRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
@@ -81,6 +79,6 @@ public class CommentService {
                 .updatedAt(LocalDateTime.now())
                 .build();
         commentRepository.save(comment);
-        return new ApiResponse("success", "reply to comment successfully", mapping.mapCommentToCommentDetailsDto(comment));
+        return new ApiResponse("success", "reply to comment successfully", mapper.mapCommentToCommentDetailsDto(comment));
     }
 }

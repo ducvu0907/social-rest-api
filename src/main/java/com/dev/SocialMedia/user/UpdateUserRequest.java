@@ -6,6 +6,4 @@ import lombok.Data;
 public class UpdateUserRequest {
     private String username;
     private String bio;
-    // update avatar after implementing file uploading
-    // private String avatarUrl;
 }

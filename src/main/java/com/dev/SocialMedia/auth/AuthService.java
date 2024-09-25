@@ -1,6 +1,7 @@
 package com.dev.SocialMedia.auth;
 
 import com.dev.SocialMedia.common.ApiResponse;
+import com.dev.SocialMedia.common.MailService;
 import com.dev.SocialMedia.config.JwtService;
 import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
@@ -22,6 +23,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final MailService mailService;
 
     public ApiResponse register(RegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
@@ -45,6 +47,12 @@ public class AuthService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
+        // send email notifying registration
+        mailService.sendMail(request.getEmail(),
+                "Account registration",
+                "You have registered an account using this email"
+        );
+
         userRepository.save(user);
 
         return new ApiResponse("success", "register successfully", null);
@@ -63,7 +71,8 @@ public class AuthService {
                 .orElseThrow();
         String jwtToken = jwtService.generateToken(user);
 
-        return new ApiResponse("success", "login successfully", jwtToken);
+        var res = new JwtAuthRes(jwtToken);
+        return new ApiResponse("success", "login successfully", res);
     }
 
 }

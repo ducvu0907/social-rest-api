@@ -5,7 +5,11 @@ import com.dev.SocialMedia.follow.Follow;
 import com.dev.SocialMedia.like.Like;
 import com.dev.SocialMedia.notification.Notification;
 import com.dev.SocialMedia.post.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,13 +34,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(unique = true, nullable = false)
+    @Size(max = 40)
     private String username;
 
+    @NotBlank
     @Column(nullable = false)
+    @Size(max = 100)
     private String password;
 
+    @NotBlank
     @Column(unique = true, nullable = false)
+    @Email
     private String email;
 
     private String avatarUrl;
@@ -45,20 +55,17 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "user")
     private List<Like> likes;
 
-    @OneToMany(mappedBy = "follower")
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Follow> following;
 
-    @OneToMany(mappedBy = "followed")
+    @OneToMany(mappedBy = "followed", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Follow> followers;
-
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notifications; // might not need this ?
 
     @CreatedDate
     private LocalDateTime createdAt;

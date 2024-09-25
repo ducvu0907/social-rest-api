@@ -26,7 +26,6 @@ public class Notification {
 
     // id of the corresponding interaction
     // client will use (type + contentId) to fetch the detail of the activity
-    // instead of relational mapping
     @Column(nullable = false)
     private Long contentId;
 

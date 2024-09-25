@@ -47,7 +47,6 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserComments(userId));
     }
 
-
     @GetMapping("/{userId}/likes")
     public ResponseEntity<ApiResponse> getUserLikes(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUserLikes(userId));
