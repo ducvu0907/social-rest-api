@@ -17,22 +17,31 @@ public class UserService {
     private final Mapper mapper;
     private final Util util;
 
-    public ApiResponse getUserDetailsByUserId(Long userId) {
+    public ApiResponse getUserDetails(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
 
-        return new ApiResponse("success", "get user details successfully", mapper.mapUserToUserDetailsDto(user));
+        return new ApiResponse(
+                "success",
+                "get user details successfully",
+                mapper.mapUserToUserDetailsDto(user)
+        );
     }
 
     public ApiResponse getUserDetailsByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new CustomException("username not found"));
 
-        return new ApiResponse("success", "get user details successfully", mapper.mapUserToUserDetailsDto(user));
+        return new ApiResponse(
+                "success",
+                "get user details successfully",
+                mapper.mapUserToUserDetailsDto(user)
+        );
     }
 
     public ApiResponse updateUser(Long userId, MultipartFile avatarFile, UpdateUserRequest request) {
         Long currentUserId = util.getCurrentUserId();
+
         if (!currentUserId.equals(userId)) {
             throw new CustomException("not authorized to update this profile");
         }
@@ -57,38 +66,67 @@ public class UserService {
         }
 
         userRepository.save(user);
-        return new ApiResponse("success", "update user successfully", mapper.mapUserToUserDetailsDto(user));
+
+        return new ApiResponse(
+                "success",
+                "update user successfully",
+                mapper.mapUserToUserDetailsDto(user)
+        );
     }
 
     public ApiResponse getUserFollowers(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
 
-        return new ApiResponse("success", "get user followers successfully", mapper.mapListFollowToListFollowDto(user.getFollowers()));
+        return new ApiResponse(
+                "success",
+                "get user followers successfully",
+                mapper.mapListFollowToListFollowDto(user.getFollowers())
+        );
     }
 
     public ApiResponse getUserFollowings(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
-        return new ApiResponse("success", "get user followings successfully", mapper.mapListFollowToListFollowDto(user.getFollowing()));
+
+        return new ApiResponse(
+                "success",
+                "get user followings successfully",
+                mapper.mapListFollowToListFollowDto(user.getFollowing())
+        );
     }
 
     public ApiResponse getUserPosts(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
-        return new ApiResponse("success", "get user posts successfully", mapper.mapListPostToListPostDetailsDto(user.getPosts()));
+
+        return new ApiResponse(
+                "success",
+                "get user posts successfully",
+                mapper.mapListPostToListPostDetailsDto(user.getPosts())
+        );
     }
 
     public ApiResponse getUserComments(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
-        return new ApiResponse("success", "get user comments successfully", mapper.mapListCommentToListCommentDetailsDto(user.getComments()));
+
+        return new ApiResponse(
+                "success",
+                "get user comments successfully",
+                mapper.mapListCommentToListCommentDetailsDto(user.getComments())
+        );
     }
 
     public ApiResponse getUserLikes(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
-        return new ApiResponse("success", "get user comments successfully", mapper.mapListLikeToListLikeDto(user.getLikes()));
+
+        return new ApiResponse(
+                "success",
+                "get user comments successfully",
+                mapper.mapListLikeToListLikeDto(user.getLikes())
+        );
     }
 
 }

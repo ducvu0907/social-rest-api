@@ -20,6 +20,7 @@ import java.util.List;
 public class Mapper {
     public UserDetailsDto mapUserToUserDetailsDto(User user) {
         return UserDetailsDto.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .avatarUrl(user.getAvatarUrl())
                 .bio(user.getBio())

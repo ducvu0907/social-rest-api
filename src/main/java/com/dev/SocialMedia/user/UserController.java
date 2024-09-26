@@ -14,7 +14,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse> getUserProfileById(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.getUserDetailsByUserId(userId));
+        return ResponseEntity.ok(userService.getUserDetails(userId));
     }
 
     // @GetMapping("/{username}")
@@ -23,7 +23,11 @@ public class UserController {
     // }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse> updateUserProfile(@PathVariable Long userId, @RequestParam("file") MultipartFile avatarFile, @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<ApiResponse> updateUserProfile(
+            @PathVariable Long userId,
+            @RequestParam("file") MultipartFile avatarFile,
+            @RequestBody UpdateUserRequest request
+    ) {
         return ResponseEntity.ok(userService.updateUser(userId, avatarFile, request));
     }
 

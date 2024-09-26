@@ -18,7 +18,6 @@ public class NotificationService {
     private final UserRepository userRepository;
     private final Mapper mapper;
 
-    // i think it makes more sense to use this in other service handlers instead of as a stand-alone api
     public ApiResponse createNotification(Long userId, CreateNotificationRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));

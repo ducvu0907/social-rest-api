@@ -12,22 +12,22 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping("/{postId}")
-    public ResponseEntity<ApiResponse> likePost(@PathVariable Long postId, @RequestBody LikeRequest request) {
-        return ResponseEntity.ok(likeService.likePost(postId, request));
+    public ResponseEntity<ApiResponse> likePost(@PathVariable Long postId) {
+        return ResponseEntity.ok(likeService.likePost(postId));
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<ApiResponse> unlikePost(@PathVariable Long postId, @RequestBody LikeRequest request) {
-        return ResponseEntity.ok(likeService.unlikePost(postId, request));
+    public ResponseEntity<ApiResponse> unlikePost(@PathVariable Long postId) {
+        return ResponseEntity.ok(likeService.unlikePost(postId));
     }
 
     @PostMapping("/{commentId}")
-    public ResponseEntity<ApiResponse> likeComment(@PathVariable Long commentId, @RequestBody LikeRequest request) {
-        return ResponseEntity.ok(likeService.likeComment(commentId, request));
+    public ResponseEntity<ApiResponse> likeComment(@PathVariable Long commentId) {
+        return ResponseEntity.ok(likeService.likeComment(commentId));
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<ApiResponse> unlikeComment(@PathVariable Long commentId, @RequestBody LikeRequest request) {
-        return ResponseEntity.ok(likeService.unlikeComment(commentId, request));
+    public ResponseEntity<ApiResponse> unlikeComment(@PathVariable Long commentId) {
+        return ResponseEntity.ok(likeService.unlikeComment(commentId));
     }
 }

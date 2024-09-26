@@ -4,6 +4,7 @@ import com.dev.SocialMedia.comment.Comment;
 import com.dev.SocialMedia.comment.CommentRepository;
 import com.dev.SocialMedia.common.ApiResponse;
 import com.dev.SocialMedia.common.Mapper;
+import com.dev.SocialMedia.common.Util;
 import com.dev.SocialMedia.notification.NotificationRepository;
 import com.dev.SocialMedia.post.Post;
 import com.dev.SocialMedia.user.User;
@@ -22,48 +23,80 @@ public class LikeService {
     private final CommentRepository commentRepository;
     private final NotificationRepository notificationRepository;
     private final Mapper mapper;
+    private final Util util;
 
-    public ApiResponse likePost(Long postId, LikeRequest request) {
-        User user = userRepository.findById(request.getUserId())
+    public ApiResponse likePost(Long postId) {
+        Long userId = util.getCurrentUserId();
+
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
+
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
+
         Like like = Like.builder()
                 .user(user)
                 .type("post")
                 .post(post)
                 .build();
+
         likeRepository.save(like);
-        return new ApiResponse("success", "like post successfully", mapper.mapLikeToLikeDto(like));
+
+        return new ApiResponse(
+                "success",
+                "like post successfully",
+                mapper.mapLikeToLikeDto(like)
+        );
     }
 
-    // TODO: unlike post deletes notification in the db
-    public ApiResponse unlikePost(Long postId, LikeRequest request) {
-        Like like = likeRepository.findLikeByUserIdAndPostId(request.getUserId(), postId)
+    // TODO: unlike post should delete notification in the db
+    public ApiResponse unlikePost(Long postId) {
+        Long userId = util.getCurrentUserId();
+        Like like = likeRepository.findLikeByUserIdAndPostId(userId, postId)
                 .orElseThrow(() -> new CustomException("like not found"));
         likeRepository.delete(like);
-        return new ApiResponse("success", "unlike post successfully", null);
+
+        return new ApiResponse(
+                "success",
+                "unlike post successfully",
+                null
+        );
     }
 
-    public ApiResponse likeComment(Long commentId, LikeRequest request) {
-        User user = userRepository.findById(request.getUserId())
+    public ApiResponse likeComment(Long commentId) {
+        Long userId = util.getCurrentUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
+
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException("comment id not found"));
+
         Like like = Like.builder()
                 .user(user)
                 .type("comment")
                 .comment(comment)
                 .build();
+
         likeRepository.save(like);
-        return new ApiResponse("success", "like comment successfully", mapper.mapLikeToLikeDto(like));
+
+        return new ApiResponse(
+                "success",
+                "like comment successfully",
+                mapper.mapLikeToLikeDto(like)
+        );
     }
 
-    // TODO: unlike post deletes notification in the db
-    public ApiResponse unlikeComment(Long commentId, LikeRequest request) {
-        Like like = likeRepository.findLikeByUserIdAndCommentId(request.getUserId(), commentId)
+    // TODO: unlike post should delete notification in the db
+    public ApiResponse unlikeComment(Long commentId) {
+        Long userId = util.getCurrentUserId();
+        Like like = likeRepository.findLikeByUserIdAndCommentId(userId, commentId)
                 .orElseThrow(() -> new CustomException("like not found"));
         likeRepository.delete(like);
-        return new ApiResponse("success", "unlike comment successfully", null);
+
+        return new ApiResponse(
+                "success",
+                "unlike comment successfully",
+                null
+        );
     }
 }
