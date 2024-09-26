@@ -17,9 +17,9 @@ import javax.crypto.SecretKey;
 
 @Service
 public class JwtService {
-    @Value("jwt.secret")
+    @Value("${jwt.secret}")
     private String secretKey;
-    @Value("jwt.expiration")
+    @Value("${jwt.expiration}")
     private long jwtExpiration; // 1 day
 
     public String extractUsername(String token) {

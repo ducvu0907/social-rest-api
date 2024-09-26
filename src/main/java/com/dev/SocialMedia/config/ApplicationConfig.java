@@ -18,12 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ApplicationConfig {
     private final UserRepository userRepository;
 
+    // spring security uses this interface to retrieve user-related data
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("username not found"));
     }
 
+    // each auth provider can be responsible for different types of authentication
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -32,11 +34,13 @@ public class ApplicationConfig {
         return authProvider;
     }
 
+    // core of spring security, manage auth providers
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // hash user password
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

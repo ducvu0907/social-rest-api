@@ -21,7 +21,7 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthFilter jwtAuthFilter;
 
-    @Value("cors.allowedOrigins")
+    @Value("${cors.allowedOrigins}")
     private String allowedOrigins;
 
     @Bean
@@ -49,8 +49,7 @@ public class SecurityConfig {
                 registry.addMapping("/api/**")
                         .allowedOrigins(allowedOrigins)
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
-                        .allowedHeaders("*")
-                        .maxAge(3600);
+                        .allowedHeaders("*");
             }
         };
     }
