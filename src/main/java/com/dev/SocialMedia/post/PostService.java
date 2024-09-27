@@ -7,6 +7,8 @@ import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,12 @@ public class PostService {
     private final Mapper mapper;
     private final AuthUtil authUtil;
     private final RedisTemplate<String, ApiResponse> redisTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
     // test cache response with redis
     public ApiResponse getPost(Long postId) {
+        logger.info("fetching post with id: {}", postId);
+
         Long userId = authUtil.getCurrentUserId();
         String cachedKey = postId + "_" + userId;
         ApiResponse cachedResponse = redisTemplate.opsForValue().get(cachedKey);
