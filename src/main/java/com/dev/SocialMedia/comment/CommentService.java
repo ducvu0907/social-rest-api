@@ -1,8 +1,8 @@
 package com.dev.SocialMedia.comment;
 
 import com.dev.SocialMedia.common.ApiResponse;
+import com.dev.SocialMedia.common.AuthUtil;
 import com.dev.SocialMedia.common.Mapper;
-import com.dev.SocialMedia.common.Util;
 import com.dev.SocialMedia.post.Post;
 import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
@@ -21,10 +21,10 @@ public class CommentService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final Mapper mapper;
-    private final Util util;
+    private final AuthUtil authUtil;
 
     public ApiResponse commentOnPost(Long postId, CreateCommentRequest request) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         if (!userId.equals(request.getUserId())) {
             throw new CustomException("not authorized to comment");
         }
@@ -66,7 +66,7 @@ public class CommentService {
     }
 
     public ApiResponse updateComment(Long commentId, UpdateCommentRequest request) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException("comment id not found"));
 
@@ -87,7 +87,7 @@ public class CommentService {
 
     // TODO: delete the corresponding notification object in the db
     public ApiResponse deleteComment(Long commentId) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException("comment id not found"));
 
@@ -105,7 +105,7 @@ public class CommentService {
     }
 
     public ApiResponse replyToComment(Long postId, Long commentId, CreateCommentRequest request) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
 

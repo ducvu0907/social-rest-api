@@ -1,8 +1,8 @@
 package com.dev.SocialMedia.follow;
 
 import com.dev.SocialMedia.common.ApiResponse;
+import com.dev.SocialMedia.common.AuthUtil;
 import com.dev.SocialMedia.common.Mapper;
-import com.dev.SocialMedia.common.Util;
 import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
@@ -15,10 +15,10 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
     private final Mapper mapper;
-    private final Util util;
+    private final AuthUtil authUtil;
 
     public ApiResponse followUser(Long followerId, FollowUserRequest request) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         if (!userId.equals(followerId)) {
             throw new CustomException("not authorized to follow user");
         }
@@ -44,7 +44,7 @@ public class FollowService {
 
     // TODO: delete the corresponding notification
     public ApiResponse unfollowUser(Long followerId, FollowUserRequest request) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         if (!userId.equals(followerId)) {
             throw new CustomException("not authorized to unfollow user");
         }

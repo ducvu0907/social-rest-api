@@ -1,16 +1,17 @@
 package com.dev.SocialMedia.post;
 
 import com.dev.SocialMedia.common.ApiResponse;
+import com.dev.SocialMedia.common.AuthUtil;
 import com.dev.SocialMedia.common.Mapper;
-import com.dev.SocialMedia.common.Util;
 import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -18,20 +19,36 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final Mapper mapper;
-    private final Util util;
+    private final AuthUtil authUtil;
+    private final RedisTemplate<String, ApiResponse> redisTemplate;
 
+    // test cache response with redis
     public ApiResponse getPost(Long postId) {
+        Long userId = authUtil.getCurrentUserId();
+        String cachedKey = postId + "_" + userId;
+        ApiResponse cachedResponse = redisTemplate.opsForValue().get(cachedKey);
+
+        if (cachedResponse != null) {
+            return cachedResponse;
+        }
+
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
-        return new ApiResponse(
+
+        ApiResponse response = new ApiResponse(
                 "success",
                 "post retrieved successfully",
                 mapper.mapPostToPostDetailsDto(post)
         );
+
+        redisTemplate.opsForValue().set(cachedKey, response); // store in cache
+        redisTemplate.expire(cachedKey, 3600, TimeUnit.SECONDS);
+
+        return response;
     }
 
     public ApiResponse createPost(CreatePostRequest request) {
-        Long currentUserId = util.getCurrentUserId();
+        Long currentUserId = authUtil.getCurrentUserId();
 
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new CustomException("user id not found"));
@@ -53,7 +70,7 @@ public class PostService {
     }
 
     public ApiResponse deletePost(Long postId) {
-        Long currentUserId = util.getCurrentUserId();
+        Long currentUserId = authUtil.getCurrentUserId();
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));
@@ -72,7 +89,7 @@ public class PostService {
     }
 
     public ApiResponse updatePost(Long postId, UpdatePostRequest request) {
-        Long currentUserId = util.getCurrentUserId();
+        Long currentUserId = authUtil.getCurrentUserId();
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException("post id not found"));

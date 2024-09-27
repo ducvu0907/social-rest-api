@@ -1,9 +1,9 @@
 package com.dev.SocialMedia.user;
 
 import com.dev.SocialMedia.common.ApiResponse;
+import com.dev.SocialMedia.common.AuthUtil;
 import com.dev.SocialMedia.common.FileStorageService;
 import com.dev.SocialMedia.common.Mapper;
-import com.dev.SocialMedia.common.Util;
 import com.dev.SocialMedia.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final FileStorageService fileStorageService;
     private final Mapper mapper;
-    private final Util util;
+    private final AuthUtil authUtil;
 
     public ApiResponse getUserDetails(Long userId) {
         User user = userRepository.findById(userId)
@@ -40,7 +40,7 @@ public class UserService {
     }
 
     public ApiResponse updateUser(Long userId, MultipartFile avatarFile, UpdateUserRequest request) {
-        Long currentUserId = util.getCurrentUserId();
+        Long currentUserId = authUtil.getCurrentUserId();
 
         if (!currentUserId.equals(userId)) {
             throw new CustomException("not authorized to update this profile");

@@ -3,8 +3,8 @@ package com.dev.SocialMedia.like;
 import com.dev.SocialMedia.comment.Comment;
 import com.dev.SocialMedia.comment.CommentRepository;
 import com.dev.SocialMedia.common.ApiResponse;
+import com.dev.SocialMedia.common.AuthUtil;
 import com.dev.SocialMedia.common.Mapper;
-import com.dev.SocialMedia.common.Util;
 import com.dev.SocialMedia.notification.NotificationRepository;
 import com.dev.SocialMedia.post.Post;
 import com.dev.SocialMedia.user.User;
@@ -23,10 +23,10 @@ public class LikeService {
     private final CommentRepository commentRepository;
     private final NotificationRepository notificationRepository;
     private final Mapper mapper;
-    private final Util util;
+    private final AuthUtil authUtil;
 
     public ApiResponse likePost(Long postId) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
@@ -51,7 +51,7 @@ public class LikeService {
 
     // TODO: unlike post should delete notification in the db
     public ApiResponse unlikePost(Long postId) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         Like like = likeRepository.findLikeByUserIdAndPostId(userId, postId)
                 .orElseThrow(() -> new CustomException("like not found"));
         likeRepository.delete(like);
@@ -64,7 +64,7 @@ public class LikeService {
     }
 
     public ApiResponse likeComment(Long commentId) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("user id not found"));
 
@@ -88,7 +88,7 @@ public class LikeService {
 
     // TODO: unlike post should delete notification in the db
     public ApiResponse unlikeComment(Long commentId) {
-        Long userId = util.getCurrentUserId();
+        Long userId = authUtil.getCurrentUserId();
         Like like = likeRepository.findLikeByUserIdAndCommentId(userId, commentId)
                 .orElseThrow(() -> new CustomException("like not found"));
         likeRepository.delete(like);
