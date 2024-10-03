@@ -7,6 +7,7 @@ import com.dev.SocialMedia.user.User;
 import com.dev.SocialMedia.exception.CustomException;
 import com.dev.SocialMedia.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final RefreshTokenService refreshTokenService;
     private final MailService mailService;
 
     public ApiResponse register(RegisterRequest request) {
@@ -70,9 +73,13 @@ public class AuthService {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
         String jwtToken = jwtService.generateToken(user);
+        String refreshToken = refreshTokenService.generateRefreshToken(user.getId());
 
-        var res = new JwtAuthRes(jwtToken);
-        return new ApiResponse("success", "login successfully", res);
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setAccessToken(jwtToken);
+        authResponse.setRefreshToken(refreshToken);
+
+        return new ApiResponse("success", "login successfully", authResponse);
     }
 
 }
